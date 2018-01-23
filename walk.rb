@@ -8,6 +8,7 @@ def walk(start)
   Dir.entries(start).each do |file|
     path = File.join(start, file)
     next if file == "." or file==".."
+    next if File.symlink?(path)
     File.directory?(path) ?
         hash[file] = walk(path) :
         hash[file] = { md5: hash_digest(path, :md5), sha1: hash_digest(path, :sha1) }
